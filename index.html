@@ -1199,13 +1199,15 @@
 
         // รูปภาพประกอบสำหรับทำเกียรติบัตร (สามารถแทนที่ด้วยลิงก์ของคุณได้)
         const CERT_ASSETS = {
-            logo: 'https://lh3.googleusercontent.com/d/1twlFf-4SwwNwAXJQQH1Rb9zSY7PSIosL',
-            certificateBackground: 'https://lh3.googleusercontent.com/d/1R7gJeyu0c2uNpJbSNU3U_VUE1Ums-5AM',
-            signature: 'https://lh3.googleusercontent.com/d/1egqGy6JaZCRiSO1MInp_D6GeoqIN9ZPK',
-            directorName: '(ดร.กวีวัฒน์ ฤาชัยลาม)',
-            directorPosition: '(ผู้อำนวยการโรงเรียนหนองบัวพิทยาคาร)',
-            orgName: 'โรงเรียนหนองบัวพิทยาคาร',
-            eventName: 'กิจกรรมเปิดบ้านวิชาการ Open House ประจำปีการศึกษา 2569'
+            logo: 'https://lh3.googleusercontent.com/d/19yxwGmcYPevXrph0D5nYncjWPVn3aPcD',
+            certificateBackground: 'https://lh3.googleusercontent.com/d/17BPo2EgtnLQR6zamj9Ubd7HnKK6U8y7Y',
+            signature: 'https://lh3.googleusercontent.com/d/1RjgYPXWsy4V4_kzXQp4CoRwrcSCfg-T3',
+            directorName: '(Assoc. Prof. Pun Thongchumnum, Ph.D.)',
+            directorPosition: '(Vice President for Phuket Campus)',
+            orgNameT: 'มหาวิทยาลัยสงขลานครินทร์ วิทยาเขตภูเก็ต',
+            orgName: 'Prince of Songkla University, Phuket Campus',
+            eventName: 'PSU Phuket Open House 2026'
+    
         };
 
         // สถานะของแอปพลิเคชัน
@@ -3602,33 +3604,40 @@
                     // ตราสัญลักษณ์ / โลโก้
                     { image: 'logo', width: 280, alignment: 'center', marginBottom: 6 },
                     
-                    // ชื่อหน่วยงาน / สถาบัน
-                    { text: CERT_ASSETS.orgName, fontSize: 26, bold: true, color: '#92400e', alignment: 'center', margin: [0, 0, 0, 8] },
+                     // ชื่อหน่วยงาน / สถาบัน
+                    { text: CERT_ASSETS.orgNameT, fontSize: 24, bold: true, color: '#92400e', alignment: 'center', margin: [0, 0, 0, 1] },
+                    { text: CERT_ASSETS.orgName, fontSize: 24, bold: true, color: '#92400e', alignment: 'center', margin: [0, 0, 8, 8] },
                     
                     // ข้อความแสดง
-                    { text: 'ขอมอบเกียรติบัตรฉบับนี้ให้ไว้เพื่อแสดงว่า', fontSize: 16, alignment: 'center', margin: [0, 0, 0, 8] },
+                    { text: 'ขอมอบเกียรติบัตรฉบับนี้ให้ไว้เพื่อแสดงว่า', fontSize: 14, alignment: 'center', margin: [0, 0, 0, 6] },
+                    { text: 'This certificate is presented to', fontSize: 14, alignment: 'center', margin: [0, 0, 8, 6] },
                     
                     // ชื่อผู้รับเกียรติบัตร
-                    { text: user.name, fontSize: 28, bold: true, color: '#1e40af', alignment: 'center', margin: [0, 0, 0, 4] },
+                    { text: user.name, fontSize: 26, bold: true, color: '#1e40af', alignment: 'center', margin: [6, 0, 6, 8] },
                     
                     // โรงเรียน / จังหวัดของผู้รับ
-                    { text: `${user.school} จังหวัด${user.province}`, fontSize: 17, bold: true, color: '#374151', alignment: 'center', margin: [0, 0, 0, 10] },
+                  //  { text: `${user.school} จังหวัด${user.province}`, fontSize: 17, bold: true, color: '#374151', alignment: 'center', margin: [0, 0, 0, 10] },
                     
                     // ข้อความกิจกรรม
-                    { text: `ได้เข้าร่วม${CERT_ASSETS.eventName} และสะสมคะแนนรวมทั้งสิ้น ${totalPts} คะแนน`, fontSize: 15, alignment: 'center', margin: [0, 0, 0, 6] },
-                    { text: 'ขอให้มีความสุขความเจริญและประสบความสำเร็จในหน้าที่การงานและการศึกษาตลอดไป', fontSize: 14, alignment: 'center', color: '#4b5563', margin: [0, 0, 0, 18] },
+                  //  { text: `ได้เข้าร่วมโครงการ ${CERT_ASSETS.eventName} และสะสมคะแนนรวมทั้งสิ้น ${totalPts} คะแนน`, fontSize: 15, alignment: 'center', margin: [0, 0, 0, 6] },
+                   // { text: `for taking part in ${CERT_ASSETS.eventName} and earning a total of ${totalPts} Points`, fontSize: 15, alignment: 'center', margin: [0, 0, 0, 6] },
+                    { text: `ได้เข้าร่วมโครงการ ${CERT_ASSETS.eventName} `, fontSize: 13, alignment: 'center', margin: [0, 0, 0, 4] },
+                    { text: `for taking part in ${CERT_ASSETS.eventName} `, fontSize: 13, alignment: 'center', margin: [0, 0, 8, 4] },
+                    { text: 'ขอให้มีความสุขความเจริญและประสบความสำเร็จในหน้าที่การงานและการศึกษาตลอดไป', fontSize: 12, alignment: 'center', color: '#4b5563', margin: [0, 0, 0, 8] },
+                    { text: 'We wish you happiness and success in your studies and future career.', fontSize: 12, alignment: 'center', color: '#4b5563', margin: [0, 0, 8, 14] },
                     
                     // ลายเซ็นและชื่อผู้อำนวยการ
-                    { image: 'signature', width: 160, alignment: 'center', margin: [0, 0, 0, 2] },
-                    { text: CERT_ASSETS.directorName, fontSize: 15, bold: true, alignment: 'center' },
-                    { text: CERT_ASSETS.directorPosition, fontSize: 13, alignment: 'center', color: '#6b7280', margin: [0, 0, 0, 8] },
+                    { image: 'signature', width: 90, alignment: 'center', margin: [4, 0, 0, 2] },
+                    { text: CERT_ASSETS.directorName, fontSize: 12, bold: true, alignment: 'center' },
+                    { text: CERT_ASSETS.directorPosition, fontSize: 10, alignment: 'center', color: '#6b7280', margin: [0, 0, 8, 6] },
                     
                     // วันที่ออกเกียรติบัตร
-                    { text: 'ให้ไว้ ณ วันที่ ' + todayThai, fontSize: 13, alignment: 'center', color: '#4b5563' },
+                    { text: 'ให้ไว้ ณ วันที่ ' + todayThai, fontSize: 9, alignment: 'center', color: '#4b5563' },
+                    { text: 'Issued on ' + todayThai, fontSize: 9, alignment: 'center', color: '#4b5563' },
                     
                     // เลขที่เกียรติบัตร
                     {
-                        text: 'เลขที่: ' + certId,
+                        text: 'No.: ' + certId,
                         fontSize: 11,
                         color: '#9ca3af',
                         alignment: 'right',
