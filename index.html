@@ -306,6 +306,10 @@
                                     <i class="fas fa-graduation-cap text-2xl mb-1.5"></i>
                                     <span class="text-xs sm:text-sm font-semibold" data-i18n="roleStudent">นักเรียน</span>
                                 </button>
+                             <button type="button" class="role-btn flex flex-col items-center justify-center p-3 rounded-2xl border-2 border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:text-slate-800 transition-all duration-200 shadow-sm" data-role="นศท.">
+                                    <i class="fas fa-person-military-rifle text-2xl mb-1.5"></i>
+                                    <span class="text-xs sm:text-sm font-semibold" data-i18n="roleROTCS">นศท.</span>
+                                </button>
                                 <button type="button" class="role-btn flex flex-col items-center justify-center p-3 rounded-2xl border-2 border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:text-slate-800 transition-all duration-200 shadow-sm" data-role="ครู">
                                     <i class="fas fa-chalkboard-user text-2xl mb-1.5"></i>
                                     <span class="text-xs sm:text-sm font-semibold" data-i18n="roleTeacher">ครู</span>
@@ -362,7 +366,7 @@
                             </div>
                         </div>
 
-                        <!-- ชื่อโรงเรียน / วิทยาลัย * (สำหรับ นักเรียน และ ครู) -->
+                        <!-- ชื่อโรงเรียน / วิทยาลัย * (สำหรับ นักเรียน นศท และ ครู) -->
                         <div id="schoolGroup">
                             <label for="regSchool" class="block text-sm font-semibold text-slate-700 mb-1.5">
                                 <span data-i18n="schoolLabel">ชื่อโรงเรียน / วิทยาลัย</span> <span class="text-red-500">*</span>
@@ -403,7 +407,7 @@
                             </div>
                         </div>
 
-                        <!-- ระดับชั้นปี * (สำหรับ นักเรียน เท่านั้น) -->
+                        <!-- ระดับชั้นปี * (สำหรับ นักเรียน และ นศท. เท่านั้น) -->
                         <div id="gradeLevelGroup">
                             <label for="regGradeLevel" class="block text-sm font-semibold text-slate-700 mb-1.5">
                                 <span data-i18n="gradeLabel">ระดับชั้นปี</span> <span class="text-red-500">*</span>
@@ -425,6 +429,9 @@
                                     <option value="ปวช. 1" data-i18n="gradeVoc1">ปวช.1</option>
                                     <option value="ปวช. 2" data-i18n="gradeVoc2">ปวช.2</option>
                                     <option value="ปวช. 3" data-i18n="gradeVoc3">ปวช.3</option>
+                                    <option value="นศท. ปี 1" data-i18n="gradeROTCS1">นศท. ปี 1</option>
+                                    <option value="นศท. ปี 2" data-i18n="gradeROTCS2">นศท. ปี 2</option>
+                                    <option value="นศท. ปี 3" data-i18n="gradeROTCS3">นศท. ปี 3</option>
                                 </select>
                                 <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-400">
                                     <i class="fas fa-chevron-down text-xs"></i>
@@ -579,9 +586,10 @@
                     <button id="navMapQuickBtn" type="button" title="แผนที่นำทางอาคารจัดกิจกรรม (Google Maps)" class="p-2 sm:p-2.5 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 rounded-xl transition-colors border border-emerald-200">
                         <i class="fas fa-map-location-dot"></i>
                     </button>
-                    <a href="dashboard.html" target="_blank" title="แดชบอร์ดสถิติผู้เข้าร่วม (Analytics Dashboard)" class="p-2 sm:p-2.5 text-slate-500 hover:text-[#0062b8] hover:bg-blue-50 rounded-xl transition-colors">
+                <!--    <a href="dashboard.html" target="_blank" title="แดชบอร์ดสถิติผู้เข้าร่วม (Analytics Dashboard)" class="p-2 sm:p-2.5 text-slate-500 hover:text-[#0062b8] hover:bg-blue-50 rounded-xl transition-colors">
                         <i class="fas fa-chart-pie"></i>
                     </a>
+                ---->    
                     <button id="editProfileBtn" title="แก้ไขข้อมูลส่วนตัว" class="p-2 sm:p-2.5 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-colors">
                         <i class="fas fa-user-pen"></i>
                     </button>
@@ -983,12 +991,13 @@
         <!-- Footer / Link to Analytics Dashboard -->
         <footer class="mt-8 text-center text-xs text-slate-400">
             <p>Prince of Songkla University, Phuket Campus &copy; 2026</p>
-            <div class="mt-2.5 flex items-center justify-center gap-2">
+         <!---   <div class="mt-2.5 flex items-center justify-center gap-2">
                 <a href="dashboard.html" target="_blank" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/90 hover:bg-white text-slate-600 hover:text-[#0062b8] border border-slate-200/80 shadow-xs transition-all text-[11px] font-medium">
                     <i class="fas fa-chart-pie text-[#0062b8]"></i>
                     <span data-i18n="analyticsDashboardLink">แดชบอร์ดสถิติผู้เข้าร่วมงาน (Analytics Dashboard)</span>
                 </a>
             </div>
+          --->  
         </footer>
 
     </div>
@@ -1089,6 +1098,7 @@
                     <label class="block text-xs font-semibold text-slate-700 mb-1"><span data-i18n="participantTypeLabel">ประเภทผู้ร่วมงาน</span> <span class="text-red-500">*</span></label>
                     <select id="editRole" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm">
                         <option value="นักเรียน" data-i18n="roleStudent">นักเรียน</option>
+                        <option value="นศท." data-i18n="roleROTCS">นศท.</option>
                         <option value="ครู" data-i18n="roleTeacher">ครู</option>
                         <option value="ผู้ปกครอง" data-i18n="roleParent">ผู้ปกครอง</option>
                         <option value="บุคคลทั่วไป" data-i18n="roleGeneral">บุคคลทั่วไป</option>
@@ -1124,6 +1134,9 @@
                         <option value="ปวช. 1" data-i18n="gradeVoc1">ปวช.1</option>
                         <option value="ปวช. 2" data-i18n="gradeVoc2">ปวช.2</option>
                         <option value="ปวช. 3" data-i18n="gradeVoc3">ปวช.3</option>
+                        <option value="นศท. ปี 1" data-i18n="gradeROTCS1">นศท. ปี 1</option>
+                        <option value="นศท. ปี 2" data-i18n="gradeROTCS2">นศท. ปี 2</option>
+                        <option value="นศท. ปี 3" data-i18n="gradeROTCS3">นศท. ปี 3</option>
                     </select>
                 </div>
 
@@ -1189,7 +1202,7 @@
         // =========================================================================
         // ใส่ LIFF ID ที่ได้จาก LINE Developers Console (เช่น '2000000000-XXXXXXXX')
         // หากเปิดผ่าน Browser ทั่วไปหรือยังไม่มี LIFF ID ระบบจะสลับเป็น Dev Mode อัตโนมัติ
-        const LIFF_ID = "2012073583-2CRlz9k2"; 
+        const LIFF_ID = "2012073583-2CRlz9k2";
         
         // URL ของ Google Apps Script Web App ที่ทำการ Deploy แล้ว (จากไฟล์ Code.gs)
         const API_URL = "https://script.google.com/macros/s/AKfycbxpRVkAc2oOVsTFp01pD9by55CxZTFr3tLWCSEDXatj4RnZDljylQj5XX1OxCW5wh2W/exec";
@@ -1248,6 +1261,7 @@
                 emailErrorText: 'กรุณากรอกรูปแบบอีเมลให้ถูกต้อง เช่น example@gmail.com',
                 participantTypeLabel: 'ประเภทผู้ร่วมงาน',
                 roleStudent: 'นักเรียน',
+                roleROTCS: 'นศท.',
                 roleTeacher: 'ครู',
                 roleParent: 'ผู้ปกครอง',
                 roleGeneral: 'บุคคลทั่วไป',
@@ -1271,6 +1285,9 @@
                 gradeVoc1: 'ปวช.1',
                 gradeVoc2: 'ปวช.2',
                 gradeVoc3: 'ปวช.3',
+                gradeROTCS1: 'นศท. ปี 1',
+                gradeROTCS2: 'นศท. ปี 2',
+                gradeROTCS3: 'นศท. ปี 3',
                 confirmRegBtn: 'ยืนยันการลงทะเบียน',
                 eventTicketTitle: 'บัตรประจำตัวผู้ร่วมงาน',
                 defaultParticipantName: 'ชื่อผู้เข้าร่วมงาน',
@@ -1393,6 +1410,7 @@
                 emailErrorText: 'Please enter a valid email address, e.g. example@gmail.com',
                 participantTypeLabel: 'Participant Type',
                 roleStudent: 'Student',
+                roleROTCS: 'ROTCS',
                 roleTeacher: 'Teacher',
                 roleParent: 'Parent/Guardian',
                 roleGeneral: 'General Visitor',
@@ -1416,6 +1434,9 @@
                 gradeVoc1: 'Vocational Year 1',
                 gradeVoc2: 'Vocational Year 2',
                 gradeVoc3: 'Vocational Year 3',
+                gradeROTCS1: 'ROTCS Year 1',
+                gradeROTCS2: 'ROTCS Year 2',
+                gradeROTCS3: 'ROTCS Year 3',
                 confirmRegBtn: 'Confirm',
                 eventTicketTitle: 'Event Ticket',
                 defaultParticipantName: 'Participant Name',
@@ -1527,11 +1548,13 @@
         const ROLE_TRANSLATIONS = {
             th: {
                 'นักเรียน': 'นักเรียน',
+                'นศท.': 'นศท.',
                 'ครู': 'ครู',
                 'ผู้ปกครอง': 'ผู้ปกครอง',
                 'บุคคลทั่วไป': 'บุคคลทั่วไป',
                 'ผู้เข้าร่วม': 'ผู้เข้าร่วม',
                 'Student': 'นักเรียน',
+                'ROTCS': 'นศท.',
                 'Teacher': 'ครู',
                 'Parent/Guardian': 'ผู้ปกครอง',
                 'General Visitor': 'บุคคลทั่วไป',
@@ -1539,11 +1562,13 @@
             },
             en: {
                 'นักเรียน': 'Student',
+                'นศท.': 'TROTCS.',
                 'ครู': 'Teacher',
                 'ผู้ปกครอง': 'Parent/Guardian',
                 'บุคคลทั่วไป': 'General Visitor',
                 'ผู้เข้าร่วม': 'Participant',
                 'Student': 'Student',
+                'TROTCS': 'TROTCS',
                 'Teacher': 'Teacher',
                 'Parent/Guardian': 'Parent/Guardian',
                 'General Visitor': 'General Visitor',
@@ -1829,7 +1854,7 @@
                     $('#regCustomProvince').prop('required', true).focus();
 
                     // กรณีจังหวัดอื่นๆ ถ้าเป็นนักเรียนหรือครู ให้เปิดช่องพิมพ์โรงเรียนเองทันที
-                    if (currentRole === 'นักเรียน' || currentRole === 'ครู') {
+                    if (currentRole === 'นักเรียน' || currentRole === 'นศท.' || currentRole === 'ครู') {
                         $('#schoolGroup').addClass('hidden');
                         $('#customSchoolContainer').removeClass('hidden');
                         $('#regCustomSchool').prop('required', true);
@@ -1838,7 +1863,7 @@
                     $('#customProvinceContainer').addClass('hidden');
                     $('#regCustomProvince').prop('required', false).val('');
 
-                    if (currentRole === 'นักเรียน' || currentRole === 'ครู') {
+                    if (currentRole === 'นักเรียน' || currentRole === 'นศท.' || currentRole === 'ครู') {
                         $('#schoolGroup').removeClass('hidden');
                         populateSchoolDropdown($('#regSchool'), $('#customSchoolContainer'), prov);
                     }
@@ -1867,7 +1892,7 @@
                     $('#editCustomProvinceContainer').removeClass('hidden');
                     $('#editCustomProvince').prop('required', true);
 
-                    if (currentRole === 'นักเรียน' || currentRole === 'ครู') {
+                    if (currentRole === 'นักเรียน' || currentRole === 'นศท.' || currentRole === 'ครู') {
                         $('#editSchoolGroup').addClass('hidden');
                         $('#editCustomSchoolContainer').removeClass('hidden');
                         $('#editCustomSchool').prop('required', true);
@@ -1876,7 +1901,7 @@
                     $('#editCustomProvinceContainer').addClass('hidden');
                     $('#editCustomProvince').prop('required', false);
 
-                    if (currentRole === 'นักเรียน' || currentRole === 'ครู') {
+                    if (currentRole === 'นักเรียน' || currentRole === 'นศท.' || currentRole === 'ครู') {
                         $('#editSchoolGroup').removeClass('hidden');
                         populateSchoolDropdown($('#editSchool'), $('#editCustomSchoolContainer'), prov);
                     }
@@ -1973,7 +1998,7 @@
         }
 
         /**
-         * กำหนดการทำงานของปุ่มเลือกประเภทผู้ร่วมงาน (นักเรียน, ครู, ผู้ปกครอง, บุคคลทั่วไป)
+         * กำหนดการทำงานของปุ่มเลือกประเภทผู้ร่วมงาน (นักเรียน, นศท., ครู, ผู้ปกครอง, บุคคลทั่วไป)
          */
         function initRoleButtons() {
             $('.role-btn').on('click', function() {
@@ -1985,6 +2010,7 @@
         /**
          * อัปเดตการแสดงผลของฟิลด์ข้อมูลตามเงื่อนไขประเภทผู้ร่วมงาน
          * - นักเรียน: จังหวัด + โรงเรียน (filter ตามจังหวัด) + ระดับชั้นปี
+         * - นศท.: จังหวัด + โรงเรียน (filter ตามจังหวัด) + ระดับชั้นปี
          * - ครู: จังหวัด + โรงเรียน (filter ตามจังหวัด)
          * - ผู้ปกครอง: จังหวัด เท่านั้น
          * - บุคคลทั่วไป: จังหวัด เท่านั้น
@@ -2020,7 +2046,27 @@
                 $('#gradeLevelGroup').removeClass('hidden');
                 $('#regGradeLevel').prop('required', true);
 
-            } else if (role === 'ครู') {
+            }  else if (role === 'นศท.') {
+                // นศท.: แสดงจังหวัด, โรงเรียน, ระดับชั้นปี
+                $('#provinceGroup').removeClass('hidden');
+                $('#regProvince').prop('required', true);
+
+                if (prov === '__OTHER__') {
+                    $('#schoolGroup').addClass('hidden');
+                    $('#customSchoolContainer').removeClass('hidden');
+                    $('#regCustomSchool').prop('required', true);
+                } else {
+                    $('#schoolGroup').removeClass('hidden');
+                    if (prov) {
+                        $('#regSchool').prop('required', true);
+                        populateSchoolDropdown($('#regSchool'), $('#customSchoolContainer'), prov, $('#regSchool').val());
+                    }
+                }
+
+                $('#gradeLevelGroup').removeClass('hidden');
+                $('#regGradeLevel').prop('required', true);
+                
+             }  else if (role === 'ครู') {
                 // ครู: แสดงแค่จังหวัดกับโรงเรียน
                 $('#provinceGroup').removeClass('hidden');
                 $('#regProvince').prop('required', true);
@@ -2070,6 +2116,14 @@
                     $('#editSchoolGroup').removeClass('hidden');
                 }
                 $('#editGradeLevelGroup').removeClass('hidden');
+            } else if (role === 'นศท.') {
+                if (prov === '__OTHER__') {
+                    $('#editSchoolGroup').addClass('hidden');
+                    $('#editCustomSchoolContainer').removeClass('hidden');
+                } else {
+                    $('#editSchoolGroup').removeClass('hidden');
+                }
+                $('#editGradeLevelGroup').removeClass('hidden');     
             } else if (role === 'ครู') {
                 if (prov === '__OTHER__') {
                     $('#editSchoolGroup').addClass('hidden');
@@ -2157,13 +2211,14 @@
 
             // สัญลักษณ์ไอคอนตามบทบาท
             let roleIconHtml = '<i class="fas fa-graduation-cap"></i>';
-            if (role === 'ครู') roleIconHtml = '<i class="fas fa-chalkboard-user"></i>';
+            if (role === 'นศท.') roleIconHtml = '<i class="fas fa-chalkboard-user"></i>';
+            else if (role === 'ครู') roleIconHtml = '<i class="fas fa-person-military-rifle"></i>';
             else if (role === 'ผู้ปกครอง') roleIconHtml = '<i class="fas fa-users"></i>';
             else if (role === 'บุคคลทั่วไป') roleIconHtml = '<i class="fas fa-user"></i>';
             $('#badgeRoleIcon').html(roleIconHtml);
 
             // ข้อมูลสถานศึกษาหรือจังหวัด
-            if (role === 'นักเรียน' || role === 'ครู') {
+            if (role === 'นักเรียน' || role === 'นศท.' || role === 'ครู') {
                 const schoolDisplay = school ? translateSchool(school) : (province ? formatProvinceDisplay(province) : t('schoolFallbackLabel'));
                 $('#badgeSchoolPill').text(schoolDisplay).removeClass('hidden');
             } else {
