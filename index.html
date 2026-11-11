@@ -439,6 +439,59 @@
                             </div>
                         </div>
 
+                        <!-- หมวด / หมู่ * (สำหรับ นศท. เท่านั้น) -->
+                        <div id="rotcsGroup" class="hidden grid grid-cols-2 gap-3">
+                            <div>
+                                <label for="regRotcsPlatoon" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                                    <span data-i18n="rotcsPlatoonLabel">หมวด</span> <span class="text-red-500">*</span>
+                                </label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                        <i class="fas fa-shield-halved"></i>
+                                    </span>
+                                    <select id="regRotcsPlatoon" name="rotcsPlatoon" class="w-full pl-10 pr-8 py-3 rounded-2xl border border-slate-200 bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0072ce] focus:border-transparent transition-all shadow-sm text-sm appearance-none cursor-pointer">
+                                        <option value="" disabled selected data-i18n="selectRotcsPlatoonPlaceholder">เลือกหมวด</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    </select>
+                                    <span class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400">
+                                        <i class="fas fa-chevron-down text-xs"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="regRotcsSquad" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                                    <span data-i18n="rotcsSquadLabel">หมู่</span> <span class="text-red-500">*</span>
+                                </label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                        <i class="fas fa-people-group"></i>
+                                    </span>
+                                    <select id="regRotcsSquad" name="rotcsSquad" class="w-full pl-10 pr-8 py-3 rounded-2xl border border-slate-200 bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0072ce] focus:border-transparent transition-all shadow-sm text-sm appearance-none cursor-pointer">
+                                        <option value="" disabled selected data-i18n="selectRotcsSquadPlaceholder">เลือกหมู่</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                        <option value="13">13</option>
+                                    </select>
+                                    <span class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400">
+                                        <i class="fas fa-chevron-down text-xs"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- ปุ่มยืนยันการลงทะเบียน matching screenshot -->
                         <div class="pt-3">
                             <button 
@@ -1140,6 +1193,38 @@
                     </select>
                 </div>
 
+                <div id="editRotcsGroup" class="hidden grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1"><span data-i18n="rotcsPlatoonLabel">หมวด</span> <span class="text-red-500">*</span></label>
+                        <select id="editRotcsPlatoon" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm">
+                            <option value="" disabled selected data-i18n="selectRotcsPlatoonPlaceholder">เลือกหมวด</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1"><span data-i18n="rotcsSquadLabel">หมู่</span> <span class="text-red-500">*</span></label>
+                        <select id="editRotcsSquad" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm">
+                            <option value="" disabled selected data-i18n="selectRotcsSquadPlaceholder">เลือกหมู่</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="pt-3 flex gap-2">
                     <button type="button" id="cancelEditBtn" class="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold" data-i18n="cancelBtn">ยกเลิก</button>
                     <button type="submit" class="flex-1 py-2.5 rounded-xl bg-[#0062b8] hover:bg-[#00529e] text-white text-sm font-semibold" data-i18n="saveBtn">บันทึกข้อมูล</button>
@@ -1288,6 +1373,12 @@
                 gradeROTCS1: 'นศท. ปี 1',
                 gradeROTCS2: 'นศท. ปี 2',
                 gradeROTCS3: 'นศท. ปี 3',
+                rotcsPlatoonLabel: 'หมวด',
+                rotcsSquadLabel: 'หมู่',
+                selectRotcsPlatoonPlaceholder: 'เลือกหมวด',
+                selectRotcsSquadPlaceholder: 'เลือกหมู่',
+                warnSelectRotcsPlatoonText: 'กรุณาเลือกหมวดของ นศท.',
+                warnSelectRotcsSquadText: 'กรุณาเลือกหมู่ของ นศท.',
                 confirmRegBtn: 'ยืนยันการลงทะเบียน',
                 eventTicketTitle: 'บัตรประจำตัวผู้ร่วมงาน',
                 defaultParticipantName: 'ชื่อผู้เข้าร่วมงาน',
@@ -1437,6 +1528,12 @@
                 gradeROTCS1: 'ROTCS Year 1',
                 gradeROTCS2: 'ROTCS Year 2',
                 gradeROTCS3: 'ROTCS Year 3',
+                rotcsPlatoonLabel: 'Platoon',
+                rotcsSquadLabel: 'Squad',
+                selectRotcsPlatoonPlaceholder: 'Select platoon',
+                selectRotcsSquadPlaceholder: 'Select squad',
+                warnSelectRotcsPlatoonText: 'Please select your ROTCS platoon.',
+                warnSelectRotcsSquadText: 'Please select your ROTCS squad.',
                 confirmRegBtn: 'Confirm',
                 eventTicketTitle: 'Event Ticket',
                 defaultParticipantName: 'Participant Name',
@@ -2100,6 +2197,15 @@
                 $('#regGradeLevel').prop('required', false).val('');
             }
 
+            // หมวด / หมู่ : แสดงเฉพาะ นศท.
+            if (role === 'นศท.') {
+                $('#rotcsGroup').removeClass('hidden');
+                $('#regRotcsPlatoon, #regRotcsSquad').prop('required', true);
+            } else {
+                $('#rotcsGroup').addClass('hidden');
+                $('#regRotcsPlatoon, #regRotcsSquad').prop('required', false).val('');
+            }
+
             updateBadgeQrView();
         }
 
@@ -2123,7 +2229,7 @@
                 } else {
                     $('#editSchoolGroup').removeClass('hidden');
                 }
-                $('#editGradeLevelGroup').removeClass('hidden');     
+                $('#editGradeLevelGroup').removeClass('hidden');
             } else if (role === 'ครู') {
                 if (prov === '__OTHER__') {
                     $('#editSchoolGroup').addClass('hidden');
@@ -2136,6 +2242,14 @@
                 $('#editSchoolGroup').addClass('hidden');
                 $('#editCustomSchoolContainer').addClass('hidden');
                 $('#editGradeLevelGroup').addClass('hidden');
+            }
+
+            // หมวด / หมู่ : แสดงเฉพาะ นศท.
+            if (role === 'นศท.') {
+                $('#editRotcsGroup').removeClass('hidden');
+            } else {
+                $('#editRotcsGroup').addClass('hidden');
+                $('#editRotcsPlatoon, #editRotcsSquad').val('');
             }
         }
 
@@ -2724,8 +2838,10 @@
             // โรงเรียน และ ระดับชั้นปี ตามเงื่อนไขของแต่ละประเภทผู้ร่วมงาน
             let school = '-';
             let gradeLevel = '-';
+            let rotcsPlatoon = '-';
+            let rotcsSquad = '-';
 
-            if (role === 'นักเรียน') {
+            if (role === 'นักเรียน' || role === 'นศท.') {
                 if ($('#regProvince').val() === '__OTHER__') {
                     school = $('#regCustomSchool').val().trim();
                 } else {
@@ -2743,6 +2859,21 @@
                     Swal.fire({ icon: 'warning', title: t('warnIncompleteTitle'), text: t('warnSelectGradeText') });
                     $('#regGradeLevel').focus();
                     return;
+                }
+
+                if (role === 'นศท.') {
+                    rotcsPlatoon = $('#regRotcsPlatoon').val();
+                    if (!rotcsPlatoon) {
+                        Swal.fire({ icon: 'warning', title: t('warnIncompleteTitle'), text: t('warnSelectRotcsPlatoonText') });
+                        $('#regRotcsPlatoon').focus();
+                        return;
+                    }
+                    rotcsSquad = $('#regRotcsSquad').val();
+                    if (!rotcsSquad) {
+                        Swal.fire({ icon: 'warning', title: t('warnIncompleteTitle'), text: t('warnSelectRotcsSquadText') });
+                        $('#regRotcsSquad').focus();
+                        return;
+                    }
                 }
 
             } else if (role === 'ครู') {
@@ -2777,6 +2908,8 @@
                 province: province,
                 school: school,
                 gradeLevel: gradeLevel,
+                rotcsPlatoon: rotcsPlatoon,
+                rotcsSquad: rotcsSquad,
                 pictureUrl: pictureUrl
             };
 
@@ -2896,6 +3029,10 @@
                 $('#editGradeLevel').val(currentUser.gradeLevel);
             }
 
+            // หมวด / หมู่ (นศท.)
+            $('#editRotcsPlatoon').val(currentUser.rotcsPlatoon && currentUser.rotcsPlatoon !== '-' ? String(currentUser.rotcsPlatoon) : '');
+            $('#editRotcsSquad').val(currentUser.rotcsSquad && currentUser.rotcsSquad !== '-' ? String(currentUser.rotcsSquad) : '');
+
             $('#editProfileModal').removeClass('hidden');
         });
 
@@ -2915,16 +3052,30 @@
 
             let school = '-';
             let gradeLevel = '-';
+            let rotcsPlatoon = '-';
+            let rotcsSquad = '-';
 
-            if (role === 'นักเรียน' || role === 'ครู') {
+            if (role === 'นักเรียน' || role === 'นศท.' || role === 'ครู') {
                 if ($('#editProvince').val() === '__OTHER__') {
                     school = $('#editCustomSchool').val().trim();
                 } else {
                     school = $('#editSchool').val();
                     if (school === '__OTHER__') school = $('#editCustomSchool').val().trim();
                 }
-                if (role === 'นักเรียน') {
+                if (role === 'นักเรียน' || role === 'นศท.') {
                     gradeLevel = $('#editGradeLevel').val() || '-';
+                }
+                if (role === 'นศท.') {
+                    rotcsPlatoon = $('#editRotcsPlatoon').val();
+                    rotcsSquad = $('#editRotcsSquad').val();
+                    if (!rotcsPlatoon) {
+                        Swal.fire({ icon: 'warning', title: t('warnIncompleteTitle'), text: t('warnSelectRotcsPlatoonText') });
+                        return;
+                    }
+                    if (!rotcsSquad) {
+                        Swal.fire({ icon: 'warning', title: t('warnIncompleteTitle'), text: t('warnSelectRotcsSquadText') });
+                        return;
+                    }
                 }
             } else {
                 school = role;
@@ -2940,6 +3091,8 @@
                 province: province,
                 school: school,
                 gradeLevel: gradeLevel,
+                rotcsPlatoon: rotcsPlatoon,
+                rotcsSquad: rotcsSquad,
                 pictureUrl: currentUser.pictureUrl || ''
             };
 
