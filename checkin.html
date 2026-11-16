@@ -74,6 +74,7 @@
 
   <div id="result">ผลการสแกนจะแสดงที่นี่</div>
   <div class="count" id="count"></div>
+  <div class="count" style="opacity:.6">เวอร์ชันหน้า: v2 (รองรับ Apps Script เก่า/ใหม่)</div>
 </div>
 
 <script>
@@ -218,7 +219,7 @@ async function processCheckIn(registrationId) {
     const uid = extractUid(registrationId);
     let r = await postJson({ action: 'checkIn', uid: uid, event: booth.name, points: booth.points });
     // Apps Script ที่ deploy อยู่ยังเป็นเวอร์ชันเก่า (ไม่มี action checkIn) -> ใช้วิธีสำรอง
-    if (r.status === 'error' && /unknown action/i.test(r.message || '')) {
+    if (r.status !== 'success' && r.status !== 'duplicate' && r.status !== 'not_found') {
       r = await checkInFallback(uid, booth);
     }
     const u = r.user || {};
