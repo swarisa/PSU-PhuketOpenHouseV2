@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>เช็คอินกิจกรรม - สแกน QR Code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<style>
+  :root {
+    --blue: #0062b8; --blue-dark: #004a8c; --bg: #f1f5f9; --card: #fff;
+    --text: #0f172a; --muted: #64748b; --border: #e2e8f0;
+    --ok: #16a34a; --ok-bg: #dcfce7; --warn: #d97706; --warn-bg: #fef3c7;
+    --err: #dc2626; --err-bg: #fee2e2;
+  }
+  * { box-sizing: border-box; font-family: 'Prompt', 'Sarabun', sans-serif; -webkit-tap-highlight-color: transparent; }
+  body { margin: 0; background: var(--bg); color: var(--text); padding: 16px 14px calc(24px + env(safe-area-inset-bottom)); }
+  .wrap { max-width: 480px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+  h1 { font-size: 1.15rem; margin: 4px 0 0; text-align: center; color: var(--blue); }
+  .sub { text-align: center; color: var(--muted); font-size: .8rem; margin-top: -8px; }
+  .card { background: var(--card); border-radius: 16px; padding: 14px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  label { font-size: .8rem; color: var(--muted); display: block; margin-bottom: 6px; }
+  select { width: 100%; padding: 12px; font-size: 1rem; border: 1px solid var(--border); border-radius: 12px; background: #fff; color: var(--text); }
+  .pts { margin-top: 8px; font-size: .85rem; color: var(--muted); }
+  .pts b { color: var(--blue); }
+  .btns { display: flex; gap: 10px; }
+  button { flex: 1; padding: 14px; font-size: 1rem; font-weight: 600; border: 0; border-radius: 12px; cursor: pointer; }
+  button:disabled { opacity: .45; cursor: not-allowed; }
+  #startBtn { background: var(--blue); color: #fff; }
+  #startBtn:active:not(:disabled) { background: var(--blue-dark); }
+  #stopBtn { background: #e2e8f0; color: var(--text); }
+  .video-box { position: relative; background: #000; border-radius: 16px; overflow: hidden; aspect-ratio: 1 / 1; display: none; }
+  .video-box.on { display: block; }
+  video { width: 100%; height: 100%; object-fit: cover; }
+  .frame { position: absolute; inset: 18%; border: 3px solid rgba(255,255,255,.9); border-radius: 18px; box-shadow: 0 0 0 999px rgba(0,0,0,.35); pointer-events: none; }
+  .hint { position: absolute; bottom: 10px; left: 0; right: 0; text-align: center; color: #fff; font-size: .8rem; text-shadow: 0 1px 3px #000; }
+  #result { border-radius: 16px; padding: 16px; text-align: center; background: var(--card); color: var(--muted); font-size: .95rem; }
+  #result.success { background: var(--ok-bg); color: #14532d; }
+  #result.duplicate { background: var(--warn-bg); color: #78350f; }
+  #result.error { background: var(--err-bg); color: #7f1d1d; }
+  #result.loading { background: #e0f2fe; color: #0c4a6e; }
+  #result .icon { font-size: 2.2rem; line-height: 1; }
+  #result .title { font-size: 1.2rem; font-weight: 700; margin: 6px 0 2px; }
+  #result .name { font-size: 1.05rem; font-weight: 600; }
+  #result .meta { font-size: .85rem; opacity: .85; margin-top: 2px; }
+  .count { text-align: center; font-size: .8rem; color: var(--muted); }
+  canvas { display: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>เช็คอินผู้เข้าร่วมกิจกรรม</h1>
+  <div class="sub">สแกน QR Code บนบัตรประจำตัวผู้ร่วมงาน</div>
+
+  <div class="card">
+    <label for="eventSelect">ฐานกิจกรรมที่เช็คอิน</label>
+    <select id="eventSelect" disabled><option>กำลังโหลดรายการ...</option></select>
+    <div class="pts" id="ptsInfo"></div>
+  </div>
+
+  <div class="btns">
+    <button id="startBtn" disabled>📷 เปิดกล้องเพื่อสแกน</button>
+    <button id="stopBtn" disabled>ปิดกล้อง</button>
+  </div>
+
+  <div class="video-box" id="videoBox">
+    <video id="video" playsinline muted></video>
+    <div class="frame"></div>
+    <div class="hint">นำ QR Code มาอยู่ในกรอบ</div>
+  </div>
+  <canvas id="canvas"></canvas>
+
+  <div id="result">ผลการสแกนจะแสดงที่นี่</div>
+  <div class="count" id="count"></div>
+</div>
+
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbyfrtwXfjeiAGg_5-3B8JszdxtYanrD4t0m4p_LbrXgjuuPqe3SFIIVkRUzcQ1EFtrMPQ/exec";
+
+const $ = id => document.getElementById(id);
+const video = $('video'), canvas = $('canvas'), ctx = canvas.getContext('2d', { willReadFrequently: true });
+const resultEl = $('result'), select = $('eventSelect');
+
+let stream = null, scanning = false, busy = false;
+let lastText = '', lastTime = 0, okCount = 0;
+let booths = [];
+
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+/* ---------- โหลดรายการฐานกิจกรรม ---------- */
+async function loadBooths() {
+  try {
+    const res = await fetch(API_URL + '?action=getBooths');
+    const json = await res.json();
+    booths = json.booths || [];
+    if (!booths.length) throw new Error('empty');
+    select.innerHTML = booths.map((b, i) =>
+      `<option value="${i}">${esc(b.name)}</option>`).join('');
+    select.disabled = false;
+    $('startBtn').disabled = false;
+    updatePts();
+  } catch (e) {
+    select.innerHTML = '<option>โหลดรายการไม่สำเร็จ</option>';
+    showResult('error', '⚠️', 'โหลดรายการฐานกิจกรรมไม่สำเร็จ', 'กรุณารีเฟรชหน้าเว็บ');
+  }
+}
+function currentBooth() { return booths[parseInt(select.value, 10)]; }
+function updatePts() {
+  const b = currentBooth();
+  $('ptsInfo').innerHTML = b ? `คะแนนที่ได้รับ: <b>${b.points}</b> คะแนน` : '';
+}
+select.addEventListener('change', updatePts);
+
+/* ---------- แสดงผล ---------- */
+function showResult(type, icon, title, name, meta) {
+  resultEl.className = type;
+  resultEl.innerHTML =
+    `<div class="icon">${icon}</div><div class="title">${esc(title)}</div>` +
+    (name ? `<div class="name">${esc(name)}</div>` : '') +
+    (meta ? `<div class="meta">${meta}</div>` : '');
+}
+
+/* ---------- กล้อง ---------- */
+async function startCamera() {
+  if (!currentBooth()) return;
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 1280 } },
+      audio: false
+    });
+  } catch (e) {
+    showResult('error', '🚫', 'เปิดกล้องไม่ได้', 'กรุณาอนุญาตการใช้กล้องในเบราว์เซอร์');
+    return;
+  }
+  video.srcObject = stream;
+  await video.play();
+  $('videoBox').classList.add('on');
+  $('startBtn').disabled = true;
+  $('stopBtn').disabled = false;
+  select.disabled = false;
+  scanning = true;
+  showResult('', '📷', 'พร้อมสแกน', '', '');
+  requestAnimationFrame(tick);
+}
+
+function stopCamera() {
+  scanning = false;
+  if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
+  video.srcObject = null;
+  $('videoBox').classList.remove('on');
+  $('startBtn').disabled = false;
+  $('stopBtn').disabled = true;
+}
+
+function tick() {
+  if (!scanning) return;
+  if (video.readyState === video.HAVE_ENOUGH_DATA && !busy) {
+    const w = video.videoWidth, h = video.videoHeight;
+    canvas.width = w; canvas.height = h;
+    ctx.drawImage(video, 0, 0, w, h);
+    const img = ctx.getImageData(0, 0, w, h);
+    const code = jsQR(img.data, w, h, { inversionAttempts: 'dontInvert' });
+    if (code && code.data) {
+      const text = code.data.trim();
+      const now = Date.now();
+      // กันสแกนซ้ำรัว ๆ ใน 4 วินาที
+      if (text && !(text === lastText && now - lastTime < 4000)) {
+        lastText = text; lastTime = now;
+        processCheckIn(text);
+      }
+    }
+  }
+  requestAnimationFrame(tick);
+}
+
+/* ---------- เช็คอิน ---------- */
+async function processCheckIn(registrationId) {
+  const booth = currentBooth();
+  if (!booth) return;
+  busy = true;
+  showResult('loading', '⏳', 'กำลังตรวจสอบ...', '', '');
+  try {
+    // ส่ง UID ไปให้ Apps Script ค้นหาในชีต Users แล้วบันทึกลงชีต Scans
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        action: 'checkIn',
+        uid: registrationId,
+        event: booth.name,
+        points: booth.points
+      })
+    });
+    const r = await res.json();
+    const u = r.user || {};
+    const meta = [u.role, u.school && u.school !== '-' ? u.school : ''].filter(Boolean).map(esc).join(' · ');
+
+    if (r.status === 'success') {
+      okCount++;
+      $('count').textContent = `เช็คอินสำเร็จในเครื่องนี้ ${okCount} คน`;
+      if (navigator.vibrate) navigator.vibrate(120);
+      showResult('success', '✅', 'เช็คอินสำเร็จ', u.name,
+        `${meta}<br>${esc(booth.name)} · +${booth.points} คะแนน`);
+    } else if (r.status === 'duplicate') {
+      if (navigator.vibrate) navigator.vibrate([100, 80, 100]);
+      showResult('duplicate', '⚠️', 'เช็คอินฐานนี้แล้ว', u.name, meta);
+    } else if (r.status === 'not_found') {
+      if (navigator.vibrate) navigator.vibrate([200, 80, 200]);
+      showResult('error', '❌', 'ไม่พบข้อมูล', '', 'UID นี้ยังไม่ได้ลงทะเบียนในระบบ');
+    } else {
+      showResult('error', '❌', 'เกิดข้อผิดพลาด', '', esc(r.message || 'ไม่ทราบสาเหตุ'));
+    }
+  } catch (e) {
+    lastText = ''; // อนุญาตให้สแกนใหม่ได้ทันทีหากเครือข่ายมีปัญหา
+    showResult('error', '📡', 'เชื่อมต่อเซิร์ฟเวอร์ไม่สำเร็จ', '', 'ตรวจสอบอินเทอร์เน็ตแล้วลองสแกนอีกครั้ง');
+  } finally {
+    busy = false;
+  }
+}
+
+$('startBtn').addEventListener('click', startCamera);
+$('stopBtn').addEventListener('click', stopCamera);
+document.addEventListener('visibilitychange', () => { if (document.hidden && stream) stopCamera(); });
+loadBooths();
+</script>
+</body>
+</html>
