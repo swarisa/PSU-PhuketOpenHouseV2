@@ -177,6 +177,37 @@ function tick() {
   requestAnimationFrame(tick);
 }
 
+/* ---------- ตัวช่วย ---------- */
+function extractUid(text) {
+  const m = String(text || '').match(/U[0-9a-fA-F]{32}/);
+  return m ? m[0] : String(text || '').trim();
+}
+async function postJson(payload) {
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  });
+  return res.json();
+}
+// สำรอง: ค้นหา UID ในชีต Users (getUser) แล้วบันทึกลง Scans (action scan)
+async function checkInFallback(uid, booth) {
+  const gr = await fetch(API_URL + '?action=getUser&uid=' + encodeURIComponent(uid));
+  const g = await gr.json();
+  if (g.status !== 'success' || !g.user) {
+    return { status: 'not_found', message: 'ไม่พบข้อมูลผู้สมัคร' };
+  }
+  const u = g.user;
+  const ts = new Date().toLocaleString('sv-SE', { timeZone: 'Asia/Bangkok' }); // yyyy-MM-dd HH:mm:ss
+  const r = await postJson({
+    action: 'scan', uid: uid, event: booth.name, points: booth.points,
+    date: ts.slice(0, 10), timestamp: ts,
+    name: u.name || '', school: u.school || '-', role: u.role || ''
+  });
+  r.user = { uid: uid, name: u.name, school: u.school, role: u.role };
+  return r;
+}
+
 /* ---------- เช็คอิน ---------- */
 async function processCheckIn(registrationId) {
   const booth = currentBooth();
@@ -184,18 +215,12 @@ async function processCheckIn(registrationId) {
   busy = true;
   showResult('loading', '⏳', 'กำลังตรวจสอบ...', '', '');
   try {
-    // ส่ง UID ไปให้ Apps Script ค้นหาในชีต Users แล้วบันทึกลงชีต Scans
-    const res = await fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({
-        action: 'checkIn',
-        uid: registrationId,
-        event: booth.name,
-        points: booth.points
-      })
-    });
-    const r = await res.json();
+    const uid = extractUid(registrationId);
+    let r = await postJson({ action: 'checkIn', uid: uid, event: booth.name, points: booth.points });
+    // Apps Script ที่ deploy อยู่ยังเป็นเวอร์ชันเก่า (ไม่มี action checkIn) -> ใช้วิธีสำรอง
+    if (r.status === 'error' && /unknown action/i.test(r.message || '')) {
+      r = await checkInFallback(uid, booth);
+    }
     const u = r.user || {};
     const meta = [u.role, u.school && u.school !== '-' ? u.school : ''].filter(Boolean).map(esc).join(' · ');
 
